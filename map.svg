@@ -1,0 +1,76 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .box { fill: #1a1a1a; stroke: #4a4a4a; stroke-width: 2; }
+      .text { fill: #e0e0e0; font-family: monospace; font-size: 14px; }
+      .title { fill: #fff; font-size: 20px; font-weight: bold; }
+      .subtitle { fill: #999; font-size: 12px; }
+      .arrow { stroke: #6b6b6b; stroke-width: 2; fill: none; }
+      .phase { fill: #2d5016; }
+      .future { fill: #1a2a3a; }
+    </style>
+  </defs>
+  
+  <text x="400" y="30" class="title" text-anchor="middle">ClawCall Architecture</text>
+  <text x="400" y="50" class="subtitle" text-anchor="middle">AI-Powered Autonomous Phone System</text>
+  
+  <!-- Core System -->
+  <rect x="300" y="80" width="200" height="60" class="box" rx="5"/>
+  <text x="400" y="105" class="text" text-anchor="middle" font-weight="bold">ClawCall Core</text>
+  <text x="400" y="125" class="text" text-anchor="middle" font-size="12">Node.js + Twilio</text>
+  
+  <!-- Phase 1: Basic -->
+  <rect x="50" y="180" width="180" height="70" class="box phase" rx="5"/>
+  <text x="140" y="200" class="text" text-anchor="middle" font-weight="bold">Phase 1: Basics</text>
+  <text x="140" y="217" class="text" text-anchor="middle" font-size="11">• Outbound calls</text>
+  <text x="140" y="232" class="text" text-anchor="middle" font-size="11">• TTS announcements</text>
+  <path d="M 230 215 L 300 110" class="arrow"/>
+  
+  <!-- Phase 2: Voicemail -->
+  <rect x="260" y="180" width="180" height="70" class="box future" rx="5"/>
+  <text x="350" y="200" class="text" text-anchor="middle" font-weight="bold">Phase 2: Voicemail</text>
+  <text x="350" y="217" class="text" text-anchor="middle" font-size="11">• Detect voicemail</text>
+  <text x="350" y="232" class="text" text-anchor="middle" font-size="11">• Leave messages</text>
+  <path d="M 350 180 L 400 140" class="arrow"/>
+  
+  <!-- Phase 3: Interactive -->
+  <rect x="470" y="180" width="180" height="70" class="box future" rx="5"/>
+  <text x="560" y="200" class="text" text-anchor="middle" font-weight="bold">Phase 3: Interactive</text>
+  <text x="560" y="217" class="text" text-anchor="middle" font-size="11">• STT + AI responses</text>
+  <text x="560" y="232" class="text" text-anchor="middle" font-size="11">• Real-time convo</text>
+  <path d="M 470 215 L 500 110" class="arrow"/>
+  
+  <!-- Integrations -->
+  <rect x="50" y="290" width="140" height="50" class="box" rx="5"/>
+  <text x="120" y="310" class="text" text-anchor="middle">Twilio API</text>
+  <text x="120" y="327" class="text" text-anchor="middle" font-size="11">Phone calls</text>
+  <path d="M 140 290 L 140 250" class="arrow"/>
+  
+  <rect x="220" y="290" width="140" height="50" class="box" rx="5"/>
+  <text x="290" y="310" class="text" text-anchor="middle">ElevenLabs</text>
+  <text x="290" y="327" class="text" text-anchor="middle" font-size="11">Natural TTS</text>
+  <path d="M 290 290 L 315 250" class="arrow"/>
+  
+  <rect x="390" y="290" width="140" height="50" class="box" rx="5"/>
+  <text x="460" y="310" class="text" text-anchor="middle">Deepgram</text>
+  <text x="460" y="327" class="text" text-anchor="middle" font-size="11">STT/transcription</text>
+  <path d="M 485 290 L 560 250" class="arrow"/>
+  
+  <rect x="560" y="290" width="140" height="50" class="box" rx="5"/>
+  <text x="630" y="310" class="text" text-anchor="middle">Claude Sonnet</text>
+  <text x="630" y="327" class="text" text-anchor="middle" font-size="11">AI conversation</text>
+  <path d="M 630 290 L 630 250" class="arrow"/>
+  
+  <!-- Use Cases -->
+  <rect x="150" y="380" width="180" height="80" class="box" rx="5" fill="#3a1a1a"/>
+  <text x="240" y="400" class="text" text-anchor="middle" font-weight="bold">Use Cases</text>
+  <text x="240" y="417" class="text" text-anchor="middle" font-size="11">• Debt negotiation</text>
+  <text x="240" y="432" class="text" text-anchor="middle" font-size="11">• Business inquiries</text>
+  <text x="240" y="447" class="text" text-anchor="middle" font-size="11">• Reminders/updates</text>
+  
+  <rect x="470" y="380" width="180" height="80" class="box" rx="5" fill="#1a1a3a"/>
+  <text x="560" y="400" class="text" text-anchor="middle" font-weight="bold">Output</text>
+  <text x="560" y="417" class="text" text-anchor="middle" font-size="11">• Call transcripts</text>
+  <text x="560" y="432" class="text" text-anchor="middle" font-size="11">• Action summaries</text>
+  <text x="560" y="447" class="text" text-anchor="middle" font-size="11">• Follow-up tasks</text>
+</svg>
