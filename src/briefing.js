@@ -1,80 +1,124 @@
 #!/usr/bin/env node
 /**
  * Callie - Daily Briefing Generator
- * Runs the /day script and formats output for phone TTS
+ * Fetches weather, calendar, news directly (no /day dependency)
  */
 
 const { execSync } = require('child_process');
+const https = require('https');
+const http = require('http');
 
-/**
- * Run the /day script and capture output
- */
-function getDayBriefing() {
+function fetch(url, timeoutMs = 8000) {
+  return new Promise((resolve, reject) => {
+    const mod = url.startsWith('https') ? https : http;
+    const req = mod.get(url, { timeout: timeoutMs }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+    });
+    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
+    req.on('error', reject);
+    setTimeout(() => { req.destroy(); reject(new Error('timeout')); }, timeoutMs);
+  });
+}
+
+async function getWeather() {
   try {
-    const raw = execSync('/Users/joshua/.local/bin/day', {
-      encoding: 'utf8',
-      timeout: 90000,
+    const data = await fetch('https://wttr.in/?format=3', 5000);
+    return data.trim();
+  } catch {
+    return 'Weather unavailable';
+  }
+}
+
+async function getCalendar() {
+  try {
+    const out = execSync('icalBuddy -n -nc -iep "title,datetime" -b "" eventsToday+3 2>/dev/null | head -10', {
+      encoding: 'utf8', timeout: 5000
+    });
+    return out.trim() || 'No upcoming events';
+  } catch {
+    return 'No upcoming events';
+  }
+}
+
+async function getReminders() {
+  try {
+    const out = execSync('reminders show-lists 2>/dev/null | head -5', {
+      encoding: 'utf8', timeout: 5000
+    });
+    return out.trim() || 'No active reminders';
+  } catch {
+    return 'No active reminders';
+  }
+}
+
+async function getNews() {
+  try {
+    const out = execSync('/Users/joshua/.local/bin/youtube-news 2>/dev/null', {
+      encoding: 'utf8', timeout: 15000,
       env: { ...process.env, PATH: process.env.PATH + ':/usr/local/bin:/opt/homebrew/bin' }
     });
-    return raw;
-  } catch (err) {
-    return `Good morning Joshua. I couldn't fetch your full briefing today. ${err.message}`;
+    return out.trim();
+  } catch {
+    return '';
   }
 }
 
 /**
- * Convert raw /day output into phone-friendly speech text
- * Strips emojis, URLs, and formats for TTS
+ * Build the briefing from all sources in parallel
  */
-function formatForSpeech(raw) {
-  let text = raw
-    // Strip emojis
-    .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
-    .replace(/[\u{2600}-\u{27BF}]/gu, '')
-    // Strip URLs
-    .replace(/https?:\/\/\S+/g, '')
-    // Strip markdown-style links
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    // Clean up section headers
-    .replace(/^WEATHER/m, 'Here is your weather.')
-    .replace(/^CALENDAR/m, 'Your calendar.')
-    .replace(/^REMINDERS/m, 'Your reminders.')
-    .replace(/^STOCKS/m, 'Stocks.')
-    // Strip Moltbook section entirely (everything from MOLTBOOK to next section header)
-    .replace(/MOLTBOOK[\s\S]*?(?=\n [A-Z]|\nYOUTUBE|\nSTOCKS|\nThat's)/,  '')
-    .replace(/^YOUTUBE NEWS/m, 'News headlines.')
-    .replace(/^Today's Headlines:/m, '')
-    .replace(/^Canadian News Channels.*$/m, '')
-    .replace(/^Trending News Searches.*$/m, '')
-    // Strip search/channel lines
-    .replace(/^.*Search YouTube:.*$/gm, '')
-    .replace(/^[•●] .*$/gm, '')
-    // Clean whitespace
-    .replace(/\n{3,}/g, '\n\n')
-    .replace(/^\s+|\s+$/g, '')
-    .trim();
-
-  // Add greeting
+async function getBriefing() {
   const hour = new Date().getHours();
   let greeting;
   if (hour < 12) greeting = 'Good morning';
   else if (hour < 17) greeting = 'Good afternoon';
   else greeting = 'Good evening';
 
-  return `${greeting} Joshua. Here is your daily briefing.\n\n${text}\n\nThat's your briefing for today. Have a great day.`;
+  const date = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  // Fetch all sources in parallel
+  const [weather, calendar, reminders, news] = await Promise.all([
+    getWeather(),
+    getCalendar(),
+    getReminders(),
+    getNews()
+  ]);
+
+  // Format news for speech
+  let newsText = '';
+  if (news) {
+    newsText = news
+      .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
+      .replace(/[\u{2600}-\u{27BF}]/gu, '')
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/^.*YOUTUBE NEWS.*$/gm, '')
+      .replace(/^Today's Headlines:/m, '')
+      .replace(/^Canadian News Channels[\s\S]*$/gm, '')
+      .replace(/^Trending News Searches[\s\S]*$/gm, '')
+      .replace(/^.*Search YouTube:.*$/gm, '')
+      .replace(/^[•●] .*$/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  let briefing = `${greeting} Joshua. Today is ${date}. Here is your daily briefing.\n\n`;
+  briefing += `Weather. ${weather}\n\n`;
+  briefing += `Your calendar. ${calendar}\n\n`;
+  briefing += `Reminders. ${reminders}\n\n`;
+  if (newsText) {
+    briefing += `News headlines.\n${newsText}\n\n`;
+  }
+  briefing += `That's your briefing for today. Have a great day.`;
+
+  return briefing;
 }
 
-/**
- * Get the formatted briefing ready for TTS
- */
-function getBriefing() {
-  const raw = getDayBriefing();
-  return formatForSpeech(raw);
-}
-
-module.exports = { getBriefing, getDayBriefing, formatForSpeech };
+module.exports = { getBriefing };
 
 // Run standalone
 if (require.main === module) {
-  console.log(getBriefing());
+  getBriefing().then(b => console.log(b));
 }

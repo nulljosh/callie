@@ -27,7 +27,7 @@ switch (command) {
     break;
 
   case 'briefing':
-    console.log(getBriefing());
+    getBriefing().then(b => console.log(b));
     break;
 
   case 'schedule': {

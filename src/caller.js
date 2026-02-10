@@ -15,7 +15,7 @@ async function callWithBriefing(toNumber) {
   const config = getConfig();
   const client = twilio(config.twilio.accountSid, config.twilio.authToken);
 
-  const briefing = getBriefing();
+  const briefing = await getBriefing();
 
   // Twilio TwiML has a ~4096 char limit per <Say>, so chunk if needed
   const chunks = chunkText(briefing, 3500);
