@@ -1,4 +1,4 @@
-# ClawCall Setup Guide
+# Callie Setup Guide
 
 ## Phase 1: Twilio Basics (Tonight)
 
@@ -54,7 +54,7 @@ Add this section:
 We'll create a simple script to call your phone:
 
 ```bash
-cd ~/Documents/Code/ClawCall
+cd ~/Documents/Code/callie
 node test-call.js
 ```
 

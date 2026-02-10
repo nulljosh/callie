@@ -1,6 +1,6 @@
 {
-  "name": "clawcall",
-  "version": "0.1.0",
+  "name": "callie",
+  "version": "0.2.0",
   "description": "AI-powered autonomous phone calling system",
   "main": "index.js",
   "scripts": {

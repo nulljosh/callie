@@ -1,4 +1,4 @@
-# ClawCall
+# Callie
 
 AI-powered autonomous phone calling system. Make calls, negotiate, leave voicemails, handle conversations on your behalf.
 

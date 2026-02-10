@@ -1,4 +1,4 @@
-# ClawCall - Quick Start
+# Callie - Quick Start
 
 ## Tonight's Goal
 Get a phone call from your AI working in 30 minutes.
@@ -35,7 +35,7 @@ Add this:
 
 ### 4. Install dependencies (1 min)
 ```bash
-cd ~/Documents/Code/ClawCall
+cd ~/Documents/Code/callie
 npm install
 ```
 
