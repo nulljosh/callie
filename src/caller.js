@@ -8,7 +8,7 @@ const twilio = require('twilio');
 const { getBriefing } = require('./briefing');
 const { getConfig } = require('./config');
 
-const VOICE = process.env.VOICE || 'Polly.Matthew-Neural';
+const VOICE = process.env.VOICE || 'Polly.Joanna-Neural';
 
 /**
  * Convert briefing text to SSML with pauses between sections
