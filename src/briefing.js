@@ -24,8 +24,28 @@ function fetch(url, timeoutMs = 8000) {
 
 async function getWeather() {
   try {
-    const data = await fetch('https://wttr.in/?format=3', 5000);
-    return data.trim();
+    // Get location from IP
+    const geo = JSON.parse(await fetch('https://ipinfo.io/json', 5000));
+    const [lat, lon] = geo.loc.split(',');
+    const city = geo.city || 'your area';
+
+    // Open-Meteo - free, no API key, reliable
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=celsius&timezone=auto&forecast_days=1`;
+    const data = JSON.parse(await fetch(url, 5000));
+
+    const temp = Math.round(data.current.temperature_2m);
+    const high = Math.round(data.daily.temperature_2m_max[0]);
+    const low = Math.round(data.daily.temperature_2m_min[0]);
+    const rain = data.daily.precipitation_probability_max[0];
+
+    const codes = { 0: 'Clear', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Overcast',
+      45: 'Foggy', 48: 'Foggy', 51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle',
+      61: 'Light rain', 63: 'Rain', 65: 'Heavy rain', 71: 'Light snow', 73: 'Snow', 75: 'Heavy snow',
+      80: 'Rain showers', 81: 'Rain showers', 82: 'Heavy rain showers',
+      95: 'Thunderstorm', 96: 'Thunderstorm with hail' };
+    const condition = codes[data.current.weather_code] || 'Unknown';
+
+    return `${city}. Currently ${temp} degrees, ${condition.toLowerCase()}. High of ${high}, low of ${low}. ${rain}% chance of precipitation.`;
   } catch {
     return 'Weather unavailable';
   }
@@ -96,8 +116,8 @@ async function getBriefing() {
       .replace(/https?:\/\/\S+/g, '')
       .replace(/^.*YOUTUBE NEWS.*$/gm, '')
       .replace(/^Today's Headlines:/m, '')
-      .replace(/^Canadian News Channels[\s\S]*$/gm, '')
-      .replace(/^Trending News Searches[\s\S]*$/gm, '')
+      .replace(/Canadian News Channels[\s\S]*/g, '')
+      .replace(/Trending News Searches[\s\S]*/g, '')
       .replace(/^.*Search YouTube:.*$/gm, '')
       .replace(/^[•●] .*$/gm, '')
       .replace(/\n{3,}/g, '\n\n')
