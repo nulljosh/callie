@@ -8,7 +8,7 @@ const twilio = require('twilio');
 const { getBriefing } = require('./briefing');
 const { getConfig } = require('./config');
 
-const VOICE = 'Polly.Matthew-Neural';
+const VOICE = process.env.VOICE || 'Polly.Matthew-Neural';
 
 /**
  * Convert briefing text to SSML with pauses between sections
@@ -46,13 +46,15 @@ async function callWithBriefing(toNumber) {
 
   const briefing = await getBriefing();
 
-  // Build SSML chunks (Twilio ~4096 char limit per <Say>)
+  // Build chunks (Twilio ~4096 char limit per <Say>)
+  // No <speak> wrapper — Polly voices work with plain <Say> + inline SSML tags
   const chunks = chunkText(briefingToSsml(briefing), 3500);
   const sayElements = chunks
-    .map(chunk => `<Say voice="${VOICE}"><speak>${chunk}</speak></Say><Pause length="1"/>`)
+    .map(chunk => `<Say voice="${VOICE}">${chunk}</Say><Pause length="1"/>`)
     .join('\n');
 
   const twiml = `<Response>\n${sayElements}\n</Response>`;
+  console.log('TwiML:', twiml.substring(0, 200), '...');
 
   try {
     const callOpts = {
@@ -119,7 +121,41 @@ function escapeXml(text) {
     .replace(/'/g, '&apos;');
 }
 
-module.exports = { callWithBriefing };
+/**
+ * Make a phone call with arbitrary text
+ */
+async function callWithText(text, toNumber) {
+  const config = getConfig();
+  const client = twilio(config.twilio.accountSid, config.twilio.authToken);
+
+  const escaped = escapeXml(text);
+  const chunks = chunkText(escaped, 3500);
+  const sayElements = chunks
+    .map(chunk => `<Say voice="${VOICE}">${chunk}</Say><Pause length="1"/>`)
+    .join('\n');
+
+  const twiml = `<Response>\n${sayElements}\n</Response>`;
+  console.log('TwiML:', twiml.substring(0, 200), '...');
+
+  try {
+    const call = await client.calls.create({
+      from: config.twilio.phoneNumber,
+      to: toNumber || config.yourPhone,
+      twiml: twiml,
+      machineDetection: 'Enable',
+      asyncAmd: 'true'
+    });
+
+    console.log(`Call initiated: ${call.sid}`);
+    console.log(`Voice: ${VOICE} | Text length: ${text.length} chars, ${chunks.length} chunk(s)`);
+    return call;
+  } catch (err) {
+    console.error(`Call failed: ${err.message}`);
+    throw err;
+  }
+}
+
+module.exports = { callWithBriefing, callWithText };
 
 // Run standalone
 if (require.main === module) {

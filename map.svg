@@ -56,8 +56,8 @@
   <!-- Voice Features Row -->
   <rect x="50" y="280" width="160" height="65" class="box done" rx="5"/>
   <text x="130" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">TTS Voice</text>
-  <text x="130" y="317" class="text" text-anchor="middle" font-size="11">Polly.Matthew-Neural</text>
-  <text x="130" y="332" class="text" text-anchor="middle" font-size="11">SSML pauses + emphasis</text>
+  <text x="130" y="317" class="text" text-anchor="middle" font-size="11">VOICE env var config</text>
+  <text x="130" y="332" class="text" text-anchor="middle" font-size="11">say cmd + briefing</text>
 
   <rect x="230" y="280" width="160" height="65" class="box done" rx="5"/>
   <text x="310" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Voicemail Detection</text>
@@ -83,9 +83,9 @@
   <text x="310" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.2 Daily Briefing</text>
   <text x="310" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
 
-  <rect x="410" y="390" width="160" height="55" class="box current" rx="5"/>
-  <text x="490" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.3 Stocks + SSML</text>
-  <text x="490" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">CURRENT</text>
+  <rect x="410" y="390" width="160" height="55" class="box done" rx="5"/>
+  <text x="490" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.3 Voice + Say</text>
+  <text x="490" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
 
   <rect x="590" y="390" width="160" height="55" class="box future" rx="5"/>
   <text x="670" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.4 Interactive</text>
@@ -97,5 +97,5 @@
   <path d="M 570 417 L 590 417" class="arrow"/>
 
   <!-- Version label -->
-  <text x="400" y="510" class="subtitle" text-anchor="middle">v0.3.0 — Stocks, SSML, Neural Voice, Voicemail Detection</text>
+  <text x="400" y="510" class="subtitle" text-anchor="middle">v0.3.1 — TwiML fix, say command, voice config, stocks, SSML</text>
 </svg>

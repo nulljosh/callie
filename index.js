@@ -9,7 +9,7 @@
  *   node index.js test          # Test call with short message
  */
 
-const { callWithBriefing } = require('./src/caller');
+const { callWithBriefing, callWithText } = require('./src/caller');
 const { getBriefing } = require('./src/briefing');
 const { getConfig } = require('./src/config');
 
@@ -66,6 +66,22 @@ switch (command) {
     break;
   }
 
+  case 'say': {
+    const text = process.argv.slice(3).join(' ');
+    if (!text) {
+      console.error('Usage: node index.js say "your text here"');
+      process.exit(1);
+    }
+    console.log(`Calling with custom text (${text.length} chars)...`);
+    callWithText(text)
+      .then(() => console.log('Call initiated successfully'))
+      .catch(err => {
+        console.error('Failed:', err.message);
+        process.exit(1);
+      });
+    break;
+  }
+
   case 'test': {
     const twilio = require('twilio');
     const config = getConfig();
@@ -82,5 +98,5 @@ switch (command) {
   }
 
   default:
-    console.log('Usage: node index.js [call|briefing|schedule|test]');
+    console.log('Usage: node index.js [call|briefing|schedule|say|test]');
 }
