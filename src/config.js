@@ -29,7 +29,8 @@ function getConfig() {
     schedule: {
       hour: parseInt(process.env.CALL_HOUR || '8', 10),
       minute: parseInt(process.env.CALL_MINUTE || '0', 10)
-    }
+    },
+    statusCallback: process.env.STATUS_CALLBACK_URL || null
   };
 
   if (!config.twilio.accountSid || !config.twilio.authToken || !config.twilio.phoneNumber) {

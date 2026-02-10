@@ -1,76 +1,101 @@
-<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="520" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
       .box { fill: #1a1a1a; stroke: #4a4a4a; stroke-width: 2; }
       .text { fill: #e0e0e0; font-family: monospace; font-size: 14px; }
       .title { fill: #fff; font-size: 20px; font-weight: bold; }
       .subtitle { fill: #999; font-size: 12px; }
-      .arrow { stroke: #6b6b6b; stroke-width: 2; fill: none; }
-      .phase { fill: #2d5016; }
+      .arrow { stroke: #6b6b6b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .done { fill: #2d5016; }
+      .current { fill: #1a3a1a; stroke: #4a8a4a; }
       .future { fill: #1a2a3a; }
     </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#6b6b6b"/>
+    </marker>
   </defs>
-  
-  <text x="400" y="30" class="title" text-anchor="middle">ClawCall Architecture</text>
-  <text x="400" y="50" class="subtitle" text-anchor="middle">AI-Powered Autonomous Phone System</text>
-  
+
+  <text x="400" y="30" class="title" text-anchor="middle">Callie Architecture</text>
+  <text x="400" y="50" class="subtitle" text-anchor="middle">AI-Powered Daily Briefing Phone System</text>
+
   <!-- Core System -->
-  <rect x="300" y="80" width="200" height="60" class="box" rx="5"/>
-  <text x="400" y="105" class="text" text-anchor="middle" font-weight="bold">ClawCall Core</text>
-  <text x="400" y="125" class="text" text-anchor="middle" font-size="12">Node.js + Twilio</text>
-  
-  <!-- Phase 1: Basic -->
-  <rect x="50" y="180" width="180" height="70" class="box phase" rx="5"/>
-  <text x="140" y="200" class="text" text-anchor="middle" font-weight="bold">Phase 1: Basics</text>
-  <text x="140" y="217" class="text" text-anchor="middle" font-size="11">• Outbound calls</text>
-  <text x="140" y="232" class="text" text-anchor="middle" font-size="11">• TTS announcements</text>
-  <path d="M 230 215 L 300 110" class="arrow"/>
-  
-  <!-- Phase 2: Voicemail -->
-  <rect x="260" y="180" width="180" height="70" class="box future" rx="5"/>
-  <text x="350" y="200" class="text" text-anchor="middle" font-weight="bold">Phase 2: Voicemail</text>
-  <text x="350" y="217" class="text" text-anchor="middle" font-size="11">• Detect voicemail</text>
-  <text x="350" y="232" class="text" text-anchor="middle" font-size="11">• Leave messages</text>
-  <path d="M 350 180 L 400 140" class="arrow"/>
-  
-  <!-- Phase 3: Interactive -->
-  <rect x="470" y="180" width="180" height="70" class="box future" rx="5"/>
-  <text x="560" y="200" class="text" text-anchor="middle" font-weight="bold">Phase 3: Interactive</text>
-  <text x="560" y="217" class="text" text-anchor="middle" font-size="11">• STT + AI responses</text>
-  <text x="560" y="232" class="text" text-anchor="middle" font-size="11">• Real-time convo</text>
-  <path d="M 470 215 L 500 110" class="arrow"/>
-  
-  <!-- Integrations -->
-  <rect x="50" y="290" width="140" height="50" class="box" rx="5"/>
-  <text x="120" y="310" class="text" text-anchor="middle">Twilio API</text>
-  <text x="120" y="327" class="text" text-anchor="middle" font-size="11">Phone calls</text>
-  <path d="M 140 290 L 140 250" class="arrow"/>
-  
-  <rect x="220" y="290" width="140" height="50" class="box" rx="5"/>
-  <text x="290" y="310" class="text" text-anchor="middle">ElevenLabs</text>
-  <text x="290" y="327" class="text" text-anchor="middle" font-size="11">Natural TTS</text>
-  <path d="M 290 290 L 315 250" class="arrow"/>
-  
-  <rect x="390" y="290" width="140" height="50" class="box" rx="5"/>
-  <text x="460" y="310" class="text" text-anchor="middle">Deepgram</text>
-  <text x="460" y="327" class="text" text-anchor="middle" font-size="11">STT/transcription</text>
-  <path d="M 485 290 L 560 250" class="arrow"/>
-  
-  <rect x="560" y="290" width="140" height="50" class="box" rx="5"/>
-  <text x="630" y="310" class="text" text-anchor="middle">Claude Sonnet</text>
-  <text x="630" y="327" class="text" text-anchor="middle" font-size="11">AI conversation</text>
-  <path d="M 630 290 L 630 250" class="arrow"/>
-  
-  <!-- Use Cases -->
-  <rect x="150" y="380" width="180" height="80" class="box" rx="5" fill="#3a1a1a"/>
-  <text x="240" y="400" class="text" text-anchor="middle" font-weight="bold">Use Cases</text>
-  <text x="240" y="417" class="text" text-anchor="middle" font-size="11">• Debt negotiation</text>
-  <text x="240" y="432" class="text" text-anchor="middle" font-size="11">• Business inquiries</text>
-  <text x="240" y="447" class="text" text-anchor="middle" font-size="11">• Reminders/updates</text>
-  
-  <rect x="470" y="380" width="180" height="80" class="box" rx="5" fill="#1a1a3a"/>
-  <text x="560" y="400" class="text" text-anchor="middle" font-weight="bold">Output</text>
-  <text x="560" y="417" class="text" text-anchor="middle" font-size="11">• Call transcripts</text>
-  <text x="560" y="432" class="text" text-anchor="middle" font-size="11">• Action summaries</text>
-  <text x="560" y="447" class="text" text-anchor="middle" font-size="11">• Follow-up tasks</text>
+  <rect x="300" y="70" width="200" height="60" class="box current" rx="5"/>
+  <text x="400" y="95" class="text" text-anchor="middle" font-weight="bold">Callie Core</text>
+  <text x="400" y="115" class="text" text-anchor="middle" font-size="12">Node.js + Twilio</text>
+
+  <!-- Data Sources Row -->
+  <rect x="20" y="170" width="145" height="65" class="box done" rx="5"/>
+  <text x="92" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Weather</text>
+  <text x="92" y="207" class="text" text-anchor="middle" font-size="11">Open-Meteo + ipinfo</text>
+  <text x="92" y="222" class="text" text-anchor="middle" font-size="11">Auto-detect location</text>
+  <path d="M 92 170 L 350 130" class="arrow"/>
+
+  <rect x="178" y="170" width="145" height="65" class="box done" rx="5"/>
+  <text x="250" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Calendar</text>
+  <text x="250" y="207" class="text" text-anchor="middle" font-size="11">icalBuddy</text>
+  <text x="250" y="222" class="text" text-anchor="middle" font-size="11">3-day lookahead</text>
+  <path d="M 250 170 L 380 130" class="arrow"/>
+
+  <rect x="336" y="170" width="145" height="65" class="box done" rx="5"/>
+  <text x="408" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Stocks</text>
+  <text x="408" y="207" class="text" text-anchor="middle" font-size="11">Yahoo Finance</text>
+  <text x="408" y="222" class="text" text-anchor="middle" font-size="11">AAPL NVDA TSLA MSFT GOOGL</text>
+  <path d="M 408 170 L 410 130" class="arrow"/>
+
+  <rect x="494" y="170" width="145" height="65" class="box done" rx="5"/>
+  <text x="566" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">News</text>
+  <text x="566" y="207" class="text" text-anchor="middle" font-size="11">Google News RSS</text>
+  <text x="566" y="222" class="text" text-anchor="middle" font-size="11">5 headlines (1/topic)</text>
+  <path d="M 566 170 L 440 130" class="arrow"/>
+
+  <rect x="652" y="170" width="130" height="65" class="box done" rx="5"/>
+  <text x="717" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Reminders</text>
+  <text x="717" y="207" class="text" text-anchor="middle" font-size="11">macOS Reminders</text>
+  <path d="M 680 170 L 470 130" class="arrow"/>
+
+  <!-- Voice Features Row -->
+  <rect x="50" y="280" width="160" height="65" class="box done" rx="5"/>
+  <text x="130" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">TTS Voice</text>
+  <text x="130" y="317" class="text" text-anchor="middle" font-size="11">Polly.Matthew-Neural</text>
+  <text x="130" y="332" class="text" text-anchor="middle" font-size="11">SSML pauses + emphasis</text>
+
+  <rect x="230" y="280" width="160" height="65" class="box done" rx="5"/>
+  <text x="310" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Voicemail Detection</text>
+  <text x="310" y="317" class="text" text-anchor="middle" font-size="11">Twilio AMD</text>
+  <text x="310" y="332" class="text" text-anchor="middle" font-size="11">Async detection</text>
+
+  <rect x="410" y="280" width="160" height="65" class="box done" rx="5"/>
+  <text x="490" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Scheduler</text>
+  <text x="490" y="317" class="text" text-anchor="middle" font-size="11">9 AM daily calls</text>
+  <text x="490" y="332" class="text" text-anchor="middle" font-size="11">Configurable time</text>
+
+  <rect x="590" y="280" width="160" height="65" class="box future" rx="5"/>
+  <text x="670" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Status Callbacks</text>
+  <text x="670" y="317" class="text" text-anchor="middle" font-size="11">Call lifecycle events</text>
+  <text x="670" y="332" class="text" text-anchor="middle" font-size="11">Optional webhook</text>
+
+  <!-- Roadmap Row -->
+  <rect x="50" y="390" width="160" height="55" class="box done" rx="5"/>
+  <text x="130" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.1 Basic Calls</text>
+  <text x="130" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
+
+  <rect x="230" y="390" width="160" height="55" class="box done" rx="5"/>
+  <text x="310" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.2 Daily Briefing</text>
+  <text x="310" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
+
+  <rect x="410" y="390" width="160" height="55" class="box current" rx="5"/>
+  <text x="490" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.3 Stocks + SSML</text>
+  <text x="490" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">CURRENT</text>
+
+  <rect x="590" y="390" width="160" height="55" class="box future" rx="5"/>
+  <text x="670" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.4 Interactive</text>
+  <text x="670" y="433" class="text" text-anchor="middle" font-size="11" fill="#6688aa">NEXT</text>
+
+  <!-- Connecting arrows roadmap -->
+  <path d="M 210 417 L 230 417" class="arrow"/>
+  <path d="M 390 417 L 410 417" class="arrow"/>
+  <path d="M 570 417 L 590 417" class="arrow"/>
+
+  <!-- Version label -->
+  <text x="400" y="510" class="subtitle" text-anchor="middle">v0.3.0 — Stocks, SSML, Neural Voice, Voicemail Detection</text>
 </svg>

@@ -73,6 +73,34 @@ async function getReminders() {
   }
 }
 
+const STOCKS = {
+  AAPL: 'Apple', NVDA: 'Nvidia', TSLA: 'Tesla', MSFT: 'Microsoft', GOOGL: 'Google'
+};
+
+async function getStocks() {
+  try {
+    const symbols = Object.keys(STOCKS);
+    const results = await Promise.all(symbols.map(async (sym) => {
+      try {
+        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`;
+        const data = JSON.parse(await fetch(url, 5000));
+        const meta = data.chart.result[0].meta;
+        const prev = meta.chartPreviousClose;
+        const price = meta.regularMarketPrice;
+        const pct = ((price - prev) / prev * 100).toFixed(1);
+        const dir = pct >= 0 ? 'up' : 'down';
+        return `${STOCKS[sym]} ${dir} ${Math.abs(pct)}%`;
+      } catch {
+        return null;
+      }
+    }));
+    const valid = results.filter(Boolean);
+    return valid.length > 0 ? valid.join(', ') + '.' : '';
+  } catch {
+    return '';
+  }
+}
+
 async function getNews() {
   try {
     const out = execSync('/Users/joshua/.local/bin/youtube-news 2>/dev/null', {
@@ -100,34 +128,34 @@ async function getBriefing() {
   });
 
   // Fetch all sources in parallel
-  const [weather, calendar, reminders, news] = await Promise.all([
+  const [weather, calendar, reminders, news, stocks] = await Promise.all([
     getWeather(),
     getCalendar(),
     getReminders(),
-    getNews()
+    getNews(),
+    getStocks()
   ]);
 
-  // Format news for speech
+  // Format news for speech - extract just the headline titles
   let newsText = '';
   if (news) {
-    newsText = news
-      .replace(/[\u{1F300}-\u{1FFFF}]/gu, '')
-      .replace(/[\u{2600}-\u{27BF}]/gu, '')
-      .replace(/https?:\/\/\S+/g, '')
-      .replace(/^.*YOUTUBE NEWS.*$/gm, '')
-      .replace(/^Today's Headlines:/m, '')
-      .replace(/Canadian News Channels[\s\S]*/g, '')
-      .replace(/Trending News Searches[\s\S]*/g, '')
-      .replace(/^.*Search YouTube:.*$/gm, '')
-      .replace(/^[•●] .*$/gm, '')
-      .replace(/\n{3,}/g, '\n\n')
-      .trim();
+    const lines = news.split('\n');
+    const headlines = lines
+      .filter(line => /^\d+\.\s/.test(line.trim()))
+      .map(line => line.replace(/^\d+\.\s*/, '').trim())
+      .slice(0, 5);
+    if (headlines.length > 0) {
+      newsText = headlines.map((h, i) => `${i + 1}. ${h}`).join('\n');
+    }
   }
 
   let briefing = `${greeting} Joshua. Today is ${date}. Here is your daily briefing.\n\n`;
   briefing += `Weather. ${weather}\n\n`;
   briefing += `Your calendar. ${calendar}\n\n`;
   briefing += `Reminders. ${reminders}\n\n`;
+  if (stocks) {
+    briefing += `Markets. ${stocks}\n\n`;
+  }
   if (newsText) {
     briefing += `News headlines.\n${newsText}\n\n`;
   }

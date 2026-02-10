@@ -1,12 +1,41 @@
 #!/usr/bin/env node
 /**
  * Callie - Phone Caller
- * Makes outbound calls via Twilio with TTS briefing
+ * Makes outbound calls via Twilio with SSML briefing
  */
 
 const twilio = require('twilio');
 const { getBriefing } = require('./briefing');
 const { getConfig } = require('./config');
+
+const VOICE = 'Polly.Matthew-Neural';
+
+/**
+ * Convert briefing text to SSML with pauses between sections
+ */
+function briefingToSsml(text) {
+  const sections = text.split(/\n\n+/);
+
+  let ssml = '';
+  for (const section of sections) {
+    const trimmed = section.trim();
+    if (!trimmed) continue;
+
+    // Pause between sections
+    if (ssml) ssml += '<break time="800ms"/>';
+
+    // Escape text first, then add SSML tags around headers
+    const escaped = escapeXml(trimmed);
+    const withHeaders = escaped.replace(
+      /^(Weather|Your calendar|Reminders|Markets|News headlines|That&apos;s your briefing)\./m,
+      '<emphasis level="moderate">$1.</emphasis><break time="400ms"/>'
+    );
+
+    ssml += withHeaders;
+  }
+
+  return ssml;
+}
 
 /**
  * Make a phone call with the daily briefing
@@ -17,23 +46,38 @@ async function callWithBriefing(toNumber) {
 
   const briefing = await getBriefing();
 
-  // Twilio TwiML has a ~4096 char limit per <Say>, so chunk if needed
-  const chunks = chunkText(briefing, 3500);
+  // Build SSML chunks (Twilio ~4096 char limit per <Say>)
+  const chunks = chunkText(briefingToSsml(briefing), 3500);
   const sayElements = chunks
-    .map(chunk => `<Say voice="Polly.Matthew">${escapeXml(chunk)}</Say><Pause length="1"/>`)
+    .map(chunk => `<Say voice="${VOICE}"><speak>${chunk}</speak></Say><Pause length="1"/>`)
     .join('\n');
 
   const twiml = `<Response>\n${sayElements}\n</Response>`;
 
   try {
-    const call = await client.calls.create({
+    const callOpts = {
       from: config.twilio.phoneNumber,
       to: toNumber || config.yourPhone,
-      twiml: twiml
-    });
+      twiml: twiml,
+      machineDetection: 'Enable',
+      asyncAmd: 'true',
+      asyncAmdStatusCallback: config.statusCallback || undefined
+    };
+
+    // Status callback for call lifecycle events
+    if (config.statusCallback) {
+      callOpts.statusCallback = config.statusCallback;
+      callOpts.statusCallbackEvent = ['initiated', 'ringing', 'answered', 'completed'];
+    }
+
+    // Remove undefined keys
+    Object.keys(callOpts).forEach(k => callOpts[k] === undefined && delete callOpts[k]);
+
+    const call = await client.calls.create(callOpts);
 
     console.log(`Call initiated: ${call.sid}`);
     console.log(`From: ${config.twilio.phoneNumber} -> To: ${toNumber || config.yourPhone}`);
+    console.log(`Voice: ${VOICE} | AMD: enabled`);
     return call;
   } catch (err) {
     console.error(`Call failed: ${err.message}`);
@@ -64,7 +108,7 @@ function chunkText(text, maxLen) {
 }
 
 /**
- * Escape XML special characters for TwiML
+ * Escape XML special characters for TwiML/SSML
  */
 function escapeXml(text) {
   return text

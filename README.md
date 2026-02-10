@@ -1,6 +1,6 @@
 # Callie
 
-AI-powered daily briefing phone calls. Calls you every morning with weather, calendar, and news.
+AI-powered daily briefing phone calls. Calls you every morning with weather, calendar, stocks, and news.
 
 ![Callie Architecture](map.svg)
 
@@ -41,8 +41,8 @@ node index.js test
 ## Tech Stack
 
 - **Voice:** Twilio (outbound calls)
-- **TTS:** Amazon Polly via Twilio (Matthew voice)
-- **Data:** wttr.in, icalBuddy, Google News RSS
+- **TTS:** Amazon Polly Neural via Twilio (Matthew-Neural voice, SSML)
+- **Data:** Open-Meteo (weather), icalBuddy (calendar), Yahoo Finance (stocks), Google News RSS
 - **Runtime:** Node.js
 
 ## Project Structure
@@ -52,7 +52,7 @@ callie/
   index.js          # CLI entry point (call/briefing/schedule/test)
   src/
     caller.js       # Twilio outbound call logic
-    briefing.js     # Runs /day script, formats for TTS
+    briefing.js     # Fetches weather, calendar, stocks, news; formats for TTS
     config.js       # Loads .env credentials
   .env              # Twilio creds (gitignored)
   package.json
@@ -63,11 +63,11 @@ callie/
 - [x] Phase 1: Basic test call
 - [x] Phase 2: Daily briefing via TTS
 - [x] Phase 3: Scheduler (9 AM daily)
-- [ ] Phase 4: Voicemail detection
-- [ ] Phase 5: Interactive conversations (STT + AI responses)
+- [x] Phase 4: Voicemail detection (AMD) + Neural voice + SSML
+- [ ] Phase 5: Interactive conversations (ConversationRelay + Claude API)
 - [ ] Phase 6: Autonomous calling (collections, inquiries)
 
 ## Status
 
-**Current:** v0.2.0 - Daily briefing calls working
+**Current:** v0.3.0 - Neural voice, SSML, stocks, voicemail detection
 **Started:** 2026-02-09

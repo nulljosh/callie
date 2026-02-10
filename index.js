@@ -74,7 +74,7 @@ switch (command) {
     client.calls.create({
       from: config.twilio.phoneNumber,
       to: config.yourPhone,
-      twiml: '<Response><Say voice="Polly.Matthew">Hello Joshua. This is Callie. Your daily briefing system is online and working. Test complete.</Say></Response>'
+      twiml: '<Response><Say voice="Polly.Matthew-Neural">Hello Joshua. This is Callie. Your daily briefing system is online and working. Test complete.</Say></Response>'
     })
     .then(call => console.log(`Test call initiated: ${call.sid}`))
     .catch(err => console.error('Test failed:', err.message));
