@@ -2,22 +2,7 @@
 
 AI-powered daily briefing phone calls. Calls you every morning with weather, calendar, and news.
 
-## How It Works
-
-```
-9:00 AM daily
-     │
-     ▼
-┌─────────┐    ┌──────────┐    ┌─────────┐
-│ /day    │───▶│ briefing │───▶│ Twilio  │───▶ Your Phone
-│ script  │    │ formatter│    │ TTS Call │
-└─────────┘    └──────────┘    └─────────┘
-     │
-     ├── wttr.in (weather)
-     ├── icalBuddy (calendar)
-     ├── reminders
-     └── Google News RSS (headlines)
-```
+![Callie Architecture](map.svg)
 
 ## Usage
 
@@ -52,10 +37,6 @@ CALL_MINUTE=0
 npm install
 node index.js test
 ```
-
-## Project Map
-
-![Callie Architecture](map.svg)
 
 ## Tech Stack
 
