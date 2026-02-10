@@ -1,6 +1,6 @@
 # Callie
 
-AI-powered daily briefing phone calls. Calls you every morning with weather, calendar, Moltbook, and news.
+AI-powered daily briefing phone calls. Calls you every morning with weather, calendar, and news.
 
 ## How It Works
 
@@ -16,7 +16,6 @@ AI-powered daily briefing phone calls. Calls you every morning with weather, cal
      ├── wttr.in (weather)
      ├── icalBuddy (calendar)
      ├── reminders
-     ├── Moltbook API (hot posts)
      └── Google News RSS (headlines)
 ```
 
@@ -56,40 +55,13 @@ node index.js test
 
 ## Project Map
 
-```mermaid
-graph TD
-    A[Callie] --> B[Scheduler]
-    A --> C[Caller]
-    A --> D[Briefing Generator]
-
-    B --> B1[9:00 AM daily trigger]
-    B --> B2[setTimeout loop]
-
-    C --> C1[Twilio API]
-    C1 --> C2[TwiML + Polly.Matthew TTS]
-    C2 --> C3[Outbound Call]
-
-    D --> D1[/day script]
-    D1 --> D2[Weather - wttr.in]
-    D1 --> D3[Calendar - icalBuddy]
-    D1 --> D4[Reminders]
-    D1 --> D5[Moltbook API]
-    D1 --> D6[Google News RSS]
-
-    D --> D7[Speech Formatter]
-    D7 --> D8[Strip emojis/URLs]
-    D7 --> D9[TTS-friendly text]
-
-    style A fill:#0071e3,color:#fff
-    style C fill:#34c759,color:#fff
-    style D fill:#ff9500,color:#fff
-```
+![Callie Architecture](map.svg)
 
 ## Tech Stack
 
 - **Voice:** Twilio (outbound calls)
 - **TTS:** Amazon Polly via Twilio (Matthew voice)
-- **Data:** wttr.in, icalBuddy, Moltbook API, Google News RSS
+- **Data:** wttr.in, icalBuddy, Google News RSS
 - **Runtime:** Node.js
 
 ## Project Structure

@@ -13,7 +13,7 @@ function getDayBriefing() {
   try {
     const raw = execSync('/Users/joshua/.local/bin/day', {
       encoding: 'utf8',
-      timeout: 30000,
+      timeout: 90000,
       env: { ...process.env, PATH: process.env.PATH + ':/usr/local/bin:/opt/homebrew/bin' }
     });
     return raw;
@@ -39,7 +39,9 @@ function formatForSpeech(raw) {
     .replace(/^WEATHER/m, 'Here is your weather.')
     .replace(/^CALENDAR/m, 'Your calendar.')
     .replace(/^REMINDERS/m, 'Your reminders.')
-    .replace(/^MOLTBOOK/m, 'Top posts on Moltbook.')
+    .replace(/^STOCKS/m, 'Stocks.')
+    // Strip Moltbook section entirely (everything from MOLTBOOK to next section header)
+    .replace(/MOLTBOOK[\s\S]*?(?=\n [A-Z]|\nYOUTUBE|\nSTOCKS|\nThat's)/,  '')
     .replace(/^YOUTUBE NEWS/m, 'News headlines.')
     .replace(/^Today's Headlines:/m, '')
     .replace(/^Canadian News Channels.*$/m, '')
