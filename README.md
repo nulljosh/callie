@@ -10,6 +10,9 @@ AI-powered daily briefing phone calls. Calls you every morning with weather, cal
 # Call now with today's briefing
 node index.js call
 
+# Say anything
+node index.js say "your text here"
+
 # Preview briefing text (no call)
 node index.js briefing
 
@@ -18,6 +21,9 @@ node index.js schedule
 
 # Quick test call (short message)
 node index.js test
+
+# Use a different voice
+VOICE=Polly.Joanna-Neural node index.js call
 ```
 
 ## Setup
@@ -49,7 +55,7 @@ node index.js test
 
 ```
 callie/
-  index.js          # CLI entry point (call/briefing/schedule/test)
+  index.js          # CLI entry point (call/briefing/schedule/say/test)
   src/
     caller.js       # Twilio outbound call logic
     briefing.js     # Fetches weather, calendar, stocks, news; formats for TTS
@@ -69,5 +75,5 @@ callie/
 
 ## Status
 
-**Current:** v0.3.0 - Neural voice, SSML, stocks, voicemail detection
+**Current:** v0.3.1 - TwiML fix, say command, voice config, SSML, stocks
 **Started:** 2026-02-09
