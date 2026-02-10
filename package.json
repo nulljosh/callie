@@ -1,0 +1,15 @@
+{
+  "name": "clawcall",
+  "version": "0.1.0",
+  "description": "AI-powered autonomous phone calling system",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test-call.js"
+  },
+  "keywords": ["twilio", "ai", "voice", "automation"],
+  "author": "Joshua Trommel",
+  "license": "MIT",
+  "dependencies": {
+    "twilio": "^5.3.7"
+  }
+}
