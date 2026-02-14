@@ -30,10 +30,10 @@ function fetch(url, timeoutMs = 8000) {
 
 async function getWeather() {
   try {
-    // Get location from IP
-    const geo = JSON.parse(await fetch('https://ipinfo.io/json', 5000));
-    const [lat, lon] = geo.loc.split(',');
-    const city = geo.city || 'your area';
+    // Brookswood, Langley, BC coordinates
+    const lat = '49.0520';
+    const lon = '-122.6340';
+    const city = 'Brookswood';
 
     // Open-Meteo - free, no API key, reliable
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=celsius&timezone=auto&forecast_days=1`;
