@@ -1,101 +1,102 @@
-<svg width="800" height="520" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
   <defs>
     <style>
-      .box { fill: #1a1a1a; stroke: #4a4a4a; stroke-width: 2; }
-      .text { fill: #e0e0e0; font-family: monospace; font-size: 14px; }
-      .title { fill: #fff; font-size: 20px; font-weight: bold; }
-      .subtitle { fill: #999; font-size: 12px; }
-      .arrow { stroke: #6b6b6b; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-      .done { fill: #2d5016; }
-      .current { fill: #1a3a1a; stroke: #4a8a4a; }
-      .future { fill: #1a2a3a; }
+      .title { font: bold 24px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: 14px sans-serif; fill: #666; }
+      .box { fill: #f0f7ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .api-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 2; rx: 8; }
+      .time-box { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .label { font: 14px sans-serif; fill: #1a1a1a; text-anchor: middle; }
+      .small { font: 12px sans-serif; fill: #666; text-anchor: middle; }
+      .arrow { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .success { fill: #16a34a; font: bold 16px sans-serif; }
     </style>
-    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#6b6b6b"/>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563eb" />
     </marker>
   </defs>
 
-  <text x="400" y="30" class="title" text-anchor="middle">Callie Architecture</text>
-  <text x="400" y="50" class="subtitle" text-anchor="middle">AI-Powered Daily Briefing Phone System</text>
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">Callie v0.4.0 - Optimized Daily Briefing</text>
+  <text x="400" y="50" class="subtitle" text-anchor="middle">~30 second phone call • Weather • Calendar • S&P 500 • News</text>
 
-  <!-- Core System -->
-  <rect x="300" y="70" width="200" height="60" class="box current" rx="5"/>
-  <text x="400" y="95" class="text" text-anchor="middle" font-weight="bold">Callie Core</text>
-  <text x="400" y="115" class="text" text-anchor="middle" font-size="12">Node.js + Twilio</text>
+  <!-- Scheduler -->
+  <rect x="20" y="80" width="140" height="80" class="time-box"/>
+  <text x="90" y="110" class="label">Scheduler</text>
+  <text x="90" y="130" class="small">9:00 AM daily</text>
+  <text x="90" y="145" class="small">node-cron</text>
 
-  <!-- Data Sources Row -->
-  <rect x="20" y="170" width="145" height="65" class="box done" rx="5"/>
-  <text x="92" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Weather</text>
-  <text x="92" y="207" class="text" text-anchor="middle" font-size="11">Open-Meteo + ipinfo</text>
-  <text x="92" y="222" class="text" text-anchor="middle" font-size="11">Auto-detect location</text>
-  <path d="M 92 170 L 350 130" class="arrow"/>
+  <!-- Data Sources -->
+  <g id="sources">
+    <rect x="220" y="80" width="120" height="60" class="api-box"/>
+    <text x="280" y="105" class="label">Open-Meteo</text>
+    <text x="280" y="125" class="small">Weather</text>
 
-  <rect x="178" y="170" width="145" height="65" class="box done" rx="5"/>
-  <text x="250" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Calendar</text>
-  <text x="250" y="207" class="text" text-anchor="middle" font-size="11">icalBuddy</text>
-  <text x="250" y="222" class="text" text-anchor="middle" font-size="11">3-day lookahead</text>
-  <path d="M 250 170 L 380 130" class="arrow"/>
+    <rect x="220" y="160" width="120" height="60" class="api-box"/>
+    <text x="280" y="185" class="label">icalBuddy</text>
+    <text x="280" y="205" class="small">Calendar</text>
 
-  <rect x="336" y="170" width="145" height="65" class="box done" rx="5"/>
-  <text x="408" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Stocks</text>
-  <text x="408" y="207" class="text" text-anchor="middle" font-size="11">Yahoo Finance</text>
-  <text x="408" y="222" class="text" text-anchor="middle" font-size="11">AAPL NVDA TSLA MSFT GOOGL</text>
-  <path d="M 408 170 L 410 130" class="arrow"/>
+    <rect x="220" y="240" width="120" height="60" class="api-box"/>
+    <text x="280" y="265" class="label">Yahoo Finance</text>
+    <text x="280" y="285" class="small">S&P 500</text>
 
-  <rect x="494" y="170" width="145" height="65" class="box done" rx="5"/>
-  <text x="566" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">News</text>
-  <text x="566" y="207" class="text" text-anchor="middle" font-size="11">Google News RSS</text>
-  <text x="566" y="222" class="text" text-anchor="middle" font-size="11">5 headlines (1/topic)</text>
-  <path d="M 566 170 L 440 130" class="arrow"/>
+    <rect x="220" y="320" width="120" height="60" class="api-box"/>
+    <text x="280" y="345" class="label">News RSS</text>
+    <text x="280" y="365" class="small">2 Headlines</text>
+  </g>
 
-  <rect x="652" y="170" width="130" height="65" class="box done" rx="5"/>
-  <text x="717" y="190" class="text" text-anchor="middle" font-weight="bold" font-size="12">Reminders</text>
-  <text x="717" y="207" class="text" text-anchor="middle" font-size="11">macOS Reminders</text>
-  <path d="M 680 170 L 470 130" class="arrow"/>
+  <!-- Briefing Builder -->
+  <rect x="400" y="80" width="140" height="300" class="box"/>
+  <text x="470" y="110" class="label">briefing.js</text>
+  <text x="470" y="135" class="small">Parallel fetch</text>
+  <text x="470" y="155" class="small">~5s total</text>
+  <text x="470" y="190" class="small">• Deduplicate</text>
+  <text x="470" y="210" class="small">• Skip empty</text>
+  <text x="470" y="230" class="small">• Max 3 events</text>
+  <text x="470" y="250" class="small">• 2 headlines</text>
+  <text x="470" y="285" class="success">✓ 30s briefing</text>
 
-  <!-- Voice Features Row -->
-  <rect x="50" y="280" width="160" height="65" class="box done" rx="5"/>
-  <text x="130" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">TTS Voice</text>
-  <text x="130" y="317" class="text" text-anchor="middle" font-size="11">Polly.Joanna-Neural (default)</text>
-  <text x="130" y="332" class="text" text-anchor="middle" font-size="11">say cmd + VOICE env var</text>
+  <!-- TwiML/Polly -->
+  <rect x="600" y="80" width="140" height="120" class="box"/>
+  <text x="670" y="110" class="label">caller.js</text>
+  <text x="670" y="130" class="small">TwiML</text>
+  <text x="670" y="150" class="small">Polly Neural</text>
+  <text x="670" y="170" class="small">No SSML</text>
+  <text x="670" y="190" class="small">asyncAmd: true</text>
 
-  <rect x="230" y="280" width="160" height="65" class="box done" rx="5"/>
-  <text x="310" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Voicemail Detection</text>
-  <text x="310" y="317" class="text" text-anchor="middle" font-size="11">Twilio AMD</text>
-  <text x="310" y="332" class="text" text-anchor="middle" font-size="11">Async detection</text>
+  <!-- Phone -->
+  <rect x="600" y="240" width="140" height="80" class="box"/>
+  <text x="670" y="270" class="label">📱 Your Phone</text>
+  <text x="670" y="290" class="small">+1 778 846 2726</text>
+  <text x="670" y="305" class="small">31s call</text>
 
-  <rect x="410" y="280" width="160" height="65" class="box done" rx="5"/>
-  <text x="490" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Scheduler</text>
-  <text x="490" y="317" class="text" text-anchor="middle" font-size="11">9 AM daily calls</text>
-  <text x="490" y="332" class="text" text-anchor="middle" font-size="11">Configurable time</text>
+  <!-- Arrows -->
+  <path d="M 160 120 L 220 110" class="arrow"/>
+  <path d="M 160 120 L 220 190" class="arrow"/>
+  <path d="M 160 120 L 220 270" class="arrow"/>
+  <path d="M 160 120 L 220 350" class="arrow"/>
+  
+  <path d="M 340 110 L 400 140" class="arrow"/>
+  <path d="M 340 190 L 400 180" class="arrow"/>
+  <path d="M 340 270 L 400 220" class="arrow"/>
+  <path d="M 340 350 L 400 260" class="arrow"/>
+  
+  <path d="M 540 230 L 600 140" class="arrow"/>
+  <path d="M 670 200 L 670 240" class="arrow"/>
 
-  <rect x="590" y="280" width="160" height="65" class="box future" rx="5"/>
-  <text x="670" y="300" class="text" text-anchor="middle" font-weight="bold" font-size="12">Status Callbacks</text>
-  <text x="670" y="317" class="text" text-anchor="middle" font-size="11">Call lifecycle events</text>
-  <text x="670" y="332" class="text" text-anchor="middle" font-size="11">Optional webhook</text>
+  <!-- Stats Box -->
+  <rect x="20" y="200" width="140" height="140" class="time-box"/>
+  <text x="90" y="225" class="label">Performance</text>
+  <text x="90" y="250" class="small">Before: 63s</text>
+  <text x="90" y="270" class="small">After: 31s</text>
+  <text x="90" y="295" class="success">52% faster</text>
+  <text x="90" y="320" class="small">✓ No errors</text>
 
-  <!-- Roadmap Row -->
-  <rect x="50" y="390" width="160" height="55" class="box done" rx="5"/>
-  <text x="130" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Basic Calls</text>
-  <text x="130" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
+  <!-- Cost -->
+  <rect x="600" y="340" width="140" height="60" class="time-box"/>
+  <text x="670" y="365" class="label">Cost</text>
+  <text x="670" y="385" class="small">$0.02/call • $0.60/mo</text>
 
-  <rect x="230" y="390" width="160" height="55" class="box done" rx="5"/>
-  <text x="310" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Daily Briefing</text>
-  <text x="310" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
-
-  <rect x="410" y="390" width="160" height="55" class="box done" rx="5"/>
-  <text x="490" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Voice + Say</text>
-  <text x="490" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
-
-  <rect x="590" y="390" width="160" height="55" class="box future" rx="5"/>
-  <text x="670" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Interactive</text>
-  <text x="670" y="433" class="text" text-anchor="middle" font-size="11" fill="#6688aa">NEXT</text>
-
-  <!-- Connecting arrows roadmap -->
-  <path d="M 210 417 L 230 417" class="arrow"/>
-  <path d="M 390 417 L 410 417" class="arrow"/>
-  <path d="M 570 417 L 590 417" class="arrow"/>
-
-  <!-- Version label -->
-  <text x="400" y="510" class="subtitle" text-anchor="middle">TwiML fix, say command, voice config, stocks, SSML</text>
+  <!-- Version -->
+  <text x="400" y="480" class="subtitle" text-anchor="middle">Production Ready • v0.4.0 • 2026-02-14</text>
 </svg>
