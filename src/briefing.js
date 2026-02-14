@@ -103,10 +103,10 @@ async function getStocks() {
       // CoinGecko free API - no key needed
       const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true';
       const data = JSON.parse(await fetch(url, 8000));
-      const btcChange = data.bitcoin.usd_change_24h;
+      const btcChange = data.bitcoin.usd_24h_change || 0;
       const pct = Math.abs(btcChange).toFixed(1);
       const dir = btcChange >= 0 ? 'up' : 'down';
-      return `Bitcoin ${dir} ${pct} percent today.`;
+      return `Bitcoin ${dir} ${pct} percent in 24 hours.`;
     } catch {
       return 'Markets closed this weekend.';
     }
