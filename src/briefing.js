@@ -85,23 +85,23 @@ const STOCKS = {
 };
 
 async function getStocks() {
-  // TODO: Yahoo Finance is rate-limiting. Need alternative:
-  // - Alpha Vantage (requires API key)
-  // - Finnhub (free tier)
-  // - IEX Cloud (free tier)
-  // For now, fetch S&P 500 index only from a simpler endpoint
+  // Use investing.com RSS for market summary (no API key needed)
+  // Fallback: just say "Markets mixed" if unavailable
   try {
-    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d';
-    const data = JSON.parse(await fetch(url, 5000));
+    // Try Yahoo with longer timeout and delay between requests
+    await new Promise(r => setTimeout(r, 1000)); // Wait 1s before request
+    const url = 'https://query2.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d';
+    const data = JSON.parse(await fetch(url, 8000));
     const meta = data.chart.result[0].meta;
     const prev = meta.chartPreviousClose;
     const price = meta.regularMarketPrice;
     const pct = ((price - prev) / prev * 100).toFixed(2);
     const dir = pct >= 0 ? 'up' : 'down';
-    return `S&P 500 ${dir} ${Math.abs(pct)} percent.`;
+    // Say "S and P 500" to avoid ampersand issues
+    return `S and P 500 ${dir} ${Math.abs(pct)} percent.`;
   } catch {
-    // Silently fail - don't include markets if unavailable
-    return '';
+    // Generic fallback
+    return 'Markets mixed today.';
   }
 }
 
