@@ -76,19 +76,19 @@
 
   <!-- Roadmap Row -->
   <rect x="50" y="390" width="160" height="55" class="box done" rx="5"/>
-  <text x="130" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.1 Basic Calls</text>
+  <text x="130" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Basic Calls</text>
   <text x="130" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
 
   <rect x="230" y="390" width="160" height="55" class="box done" rx="5"/>
-  <text x="310" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.2 Daily Briefing</text>
+  <text x="310" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Daily Briefing</text>
   <text x="310" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
 
   <rect x="410" y="390" width="160" height="55" class="box done" rx="5"/>
-  <text x="490" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.3 Voice + Say</text>
+  <text x="490" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Voice + Say</text>
   <text x="490" y="433" class="text" text-anchor="middle" font-size="11" fill="#4a8a4a">DONE</text>
 
   <rect x="590" y="390" width="160" height="55" class="box future" rx="5"/>
-  <text x="670" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">v0.4 Interactive</text>
+  <text x="670" y="413" class="text" text-anchor="middle" font-weight="bold" font-size="12">Interactive</text>
   <text x="670" y="433" class="text" text-anchor="middle" font-size="11" fill="#6688aa">NEXT</text>
 
   <!-- Connecting arrows roadmap -->
@@ -97,5 +97,5 @@
   <path d="M 570 417 L 590 417" class="arrow"/>
 
   <!-- Version label -->
-  <text x="400" y="510" class="subtitle" text-anchor="middle">v0.3.1 — TwiML fix, say command, voice config, stocks, SSML</text>
+  <text x="400" y="510" class="subtitle" text-anchor="middle">TwiML fix, say command, voice config, stocks, SSML</text>
 </svg>
