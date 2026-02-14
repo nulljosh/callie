@@ -73,7 +73,24 @@ callie/
 - [ ] Phase 5: Interactive conversations (ConversationRelay + Claude API)
 - [ ] Phase 6: Autonomous calling (collections, inquiries)
 
+## What You Get
+
+**~30 second morning briefing with:**
+- 🌤️ Weather (location, temp, conditions, precipitation)
+- 📅 Calendar (next 3 events, deduplicated)
+- 📈 Markets (S&P 500 live % change)
+- 📰 News (2 top headlines)
+- ⏭️ Skips empty sections (reminders, etc.)
+
+## Recent Updates (v0.4.0)
+
+- ✅ **Optimized briefing** - Cut from 63s to ~30s
+- ✅ **Real stock data** - Live S&P 500 % change via Yahoo Finance
+- ✅ **Fixed all errors** - Removed SSML parsing issues, fixed asyncAmd
+- ✅ **Smart sections** - Skips reminders if none, deduplicates calendar
+- ✅ **Faster** - 2 headlines instead of 5, shorter intro/outro
+
 ## Status
 
-**Current:** v0.3.1 - TwiML fix, say command, voice config, SSML, stocks
+**Current:** v0.4.0 - Production-ready, optimized 30s briefing
 **Started:** 2026-02-09
