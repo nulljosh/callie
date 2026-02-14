@@ -94,24 +94,42 @@ const STOCKS = {
 };
 
 async function getStocks() {
-  try {
-    // Try multiple sources in sequence
-    // 1. Yahoo Finance (alternate endpoint)
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun, 6=Sat
+  
+  // Weekends: Markets closed, check crypto instead
+  if (day === 0 || day === 6) {
     try {
-      const url = 'https://query2.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d';
+      // CoinGecko free API - no key needed
+      const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true';
       const data = JSON.parse(await fetch(url, 8000));
-      const meta = data.chart.result[0].meta;
-      const prev = meta.chartPreviousClose;
-      const price = meta.regularMarketPrice;
-      const pct = ((price - prev) / prev * 100).toFixed(1);
-      const dir = pct >= 0 ? 'up' : 'down';
-      return `S and P ${dir} ${Math.abs(pct)} percent.`;
+      const btcChange = data.bitcoin.usd_change_24h;
+      const pct = Math.abs(btcChange).toFixed(1);
+      const dir = btcChange >= 0 ? 'up' : 'down';
+      return `Bitcoin ${dir} ${pct} percent today.`;
     } catch {
-      // 2. Fallback to simple generic message
-      return 'Markets steady.';
+      return 'Markets closed this weekend.';
     }
+  }
+  
+  // Weekdays: S&P 500
+  try {
+    const url = 'https://query2.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d';
+    const data = JSON.parse(await fetch(url, 8000));
+    const meta = data.chart.result[0].meta;
+    const prev = meta.chartPreviousClose;
+    const price = meta.regularMarketPrice;
+    const pct = ((price - prev) / prev * 100).toFixed(1);
+    
+    // If change is 0 (market just opened or pre-market), say "flat"
+    if (Math.abs(pct) < 0.1) {
+      return 'S and P flat today.';
+    }
+    
+    const dir = pct >= 0 ? 'up' : 'down';
+    return `S and P ${dir} ${Math.abs(pct)} percent.`;
   } catch {
-    return '';
+    return 'Markets steady.';
   }
 }
 
