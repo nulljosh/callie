@@ -6,10 +6,16 @@
   "scripts": {
     "test": "node test-call.js"
   },
-  "keywords": ["twilio", "ai", "voice", "automation"],
+  "keywords": [
+    "twilio",
+    "ai",
+    "voice",
+    "automation"
+  ],
   "author": "Joshua Trommel",
   "license": "MIT",
   "dependencies": {
+    "@xmldom/xmldom": "^0.8.11",
     "twilio": "^5.3.7"
   }
 }
