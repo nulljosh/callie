@@ -17,8 +17,8 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="30" class="title" text-anchor="middle">Callie v0.4.0 - Optimized Daily Briefing</text>
-  <text x="400" y="50" class="subtitle" text-anchor="middle">~30 second phone call • Weather • Calendar • S&P 500 • News</text>
+  <text x="400" y="30" class="title" text-anchor="middle">Callie - AI Daily Briefing</text>
+  <text x="400" y="50" class="subtitle" text-anchor="middle">~30 second phone call • Weather • Calendar • Markets • News</text>
 
   <!-- Scheduler -->
   <rect x="20" y="80" width="140" height="80" class="time-box"/>
@@ -97,6 +97,6 @@
   <text x="670" y="365" class="label">Cost</text>
   <text x="670" y="385" class="small">$0.02/call • $0.60/mo</text>
 
-  <!-- Version -->
-  <text x="400" y="480" class="subtitle" text-anchor="middle">Production Ready • v0.4.0 • 2026-02-14</text>
+  <!-- Footer -->
+  <text x="400" y="480" class="subtitle" text-anchor="middle">Production Ready • Twilio + Polly + Open APIs</text>
 </svg>
