@@ -11,19 +11,17 @@ const { getConfig } = require('./config');
 const VOICE = process.env.VOICE || 'Polly.Joanna-Neural';
 
 /**
- * Convert briefing text to SSML with pauses between sections
- * Simplified to avoid SSML parsing errors
+ * Convert briefing text for TTS (no SSML - causes Error 13520)
+ * Polly Neural voices sound natural without markup
  */
 function briefingToSsml(text) {
-  // Simple approach: just escape the text, skip complex SSML tags
-  // Polly Neural voices sound good without heavy SSML markup
+  // Just escape XML - no SSML tags at all to avoid parsing errors
+  // Natural pauses will come from punctuation (periods, commas)
   const escaped = escapeXml(text);
   
-  // Replace double newlines with pauses
-  const withPauses = escaped.replace(/\n\n+/g, '<break time="800ms"/> ');
-  
-  // Replace single newlines with short pauses (for news headlines)
-  const final = withPauses.replace(/\n/g, '<break time="300ms"/> ');
+  // Replace newlines with periods for natural pauses
+  const withPauses = escaped.replace(/\n\n+/g, '. ');
+  const final = withPauses.replace(/\n/g, '. ');
   
   return final;
 }
@@ -53,7 +51,7 @@ async function callWithBriefing(toNumber) {
       to: toNumber || config.yourPhone,
       twiml: twiml,
       machineDetection: 'Enable',
-      asyncAmd: 'true',
+      asyncAmd: true,  // Boolean, not string!
       asyncAmdStatusCallback: config.statusCallback || undefined
     };
 
