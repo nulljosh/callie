@@ -56,7 +56,14 @@ async function getCalendar() {
     const out = execSync('icalBuddy -n -nc -iep "title,datetime" -b "" eventsToday+3 2>/dev/null | head -10', {
       encoding: 'utf8', timeout: 5000
     });
-    return out.trim() || 'No upcoming events';
+    // Clean up for speech - replace newlines with commas, remove extra whitespace
+    const cleaned = out.trim()
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line && !line.match(/^\s+$/))
+      .join(', ')
+      .replace(/,\s*,/g, ','); // Remove double commas
+    return cleaned || 'No upcoming events';
   } catch {
     return 'No upcoming events';
   }
