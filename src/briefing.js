@@ -11,7 +11,13 @@ const http = require('http');
 function fetch(url, timeoutMs = 8000) {
   return new Promise((resolve, reject) => {
     const mod = url.startsWith('https') ? https : http;
-    const req = mod.get(url, { timeout: timeoutMs }, (res) => {
+    const req = mod.get(url, {
+      timeout: timeoutMs,
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Accept': 'application/json'
+      }
+    }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => resolve(data));
