@@ -111,9 +111,16 @@ function chunkText(text, maxLen) {
 
 /**
  * Escape XML special characters for TwiML/SSML
+ * Also normalize smart quotes and special characters
  */
 function escapeXml(text) {
   return text
+    // Normalize smart quotes and special chars first
+    .replace(/[\u2018\u2019]/g, "'")  // Smart single quotes → straight
+    .replace(/[\u201C\u201D]/g, '"')  // Smart double quotes → straight
+    .replace(/[\u2013\u2014]/g, '-')  // En/em dashes → hyphen
+    .replace(/\u2026/g, '...')        // Ellipsis → three dots
+    // Then escape XML special characters
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
