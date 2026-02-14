@@ -53,19 +53,22 @@ async function getWeather() {
 
 async function getCalendar() {
   try {
-    const out = execSync('icalBuddy -n -nc -iep "title,datetime" -b "" eventsToday+3 2>/dev/null | head -10', {
+    const out = execSync('icalBuddy -n -nc -iep "title,datetime" -b "" eventsToday+2 2>/dev/null | head -5', {
       encoding: 'utf8', timeout: 5000
     });
-    // Clean up for speech - replace newlines with commas, remove extra whitespace
-    const cleaned = out.trim()
+    // Clean up for speech - just first 3 events, remove duplicates
+    const events = out.trim()
       .split('\n')
       .map(line => line.trim())
       .filter(line => line && !line.match(/^\s+$/))
-      .join(', ')
-      .replace(/,\s*,/g, ','); // Remove double commas
-    return cleaned || 'No upcoming events';
+      .slice(0, 3); // Max 3 events
+    
+    // Remove exact duplicates
+    const unique = [...new Set(events)];
+    
+    return unique.length > 0 ? unique.join(', ') : 'Nothing scheduled';
   } catch {
-    return 'No upcoming events';
+    return 'Nothing scheduled';
   }
 }
 
@@ -85,23 +88,24 @@ const STOCKS = {
 };
 
 async function getStocks() {
-  // Use investing.com RSS for market summary (no API key needed)
-  // Fallback: just say "Markets mixed" if unavailable
   try {
-    // Try Yahoo with longer timeout and delay between requests
-    await new Promise(r => setTimeout(r, 1000)); // Wait 1s before request
-    const url = 'https://query2.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d';
-    const data = JSON.parse(await fetch(url, 8000));
-    const meta = data.chart.result[0].meta;
-    const prev = meta.chartPreviousClose;
-    const price = meta.regularMarketPrice;
-    const pct = ((price - prev) / prev * 100).toFixed(2);
-    const dir = pct >= 0 ? 'up' : 'down';
-    // Say "S and P 500" to avoid ampersand issues
-    return `S and P 500 ${dir} ${Math.abs(pct)} percent.`;
+    // Try multiple sources in sequence
+    // 1. Yahoo Finance (alternate endpoint)
+    try {
+      const url = 'https://query2.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d';
+      const data = JSON.parse(await fetch(url, 8000));
+      const meta = data.chart.result[0].meta;
+      const prev = meta.chartPreviousClose;
+      const price = meta.regularMarketPrice;
+      const pct = ((price - prev) / prev * 100).toFixed(1);
+      const dir = pct >= 0 ? 'up' : 'down';
+      return `S and P ${dir} ${Math.abs(pct)} percent.`;
+    } catch {
+      // 2. Fallback to simple generic message
+      return 'Markets steady.';
+    }
   } catch {
-    // Generic fallback
-    return 'Markets mixed today.';
+    return '';
   }
 }
 
@@ -140,30 +144,33 @@ async function getBriefing() {
     getStocks()
   ]);
 
-  // Format news for speech - extract just the headline titles (3 max)
+  // Format news for speech - extract just the headline titles (2 max, no numbering)
   let newsText = '';
   if (news) {
     const lines = news.split('\n');
     const headlines = lines
       .filter(line => /^\d+\.\s/.test(line.trim()))
       .map(line => line.replace(/^\d+\.\s*/, '').trim())
-      .slice(0, 3);  // Reduced from 5 to 3
+      .slice(0, 2);  // Only 2 headlines
     if (headlines.length > 0) {
-      newsText = headlines.map((h, i) => `${i + 1}. ${h}`).join('\n');
+      newsText = headlines.join('. '); // Just periods between, no numbering
     }
   }
 
-  let briefing = `${greeting} Joshua. Today is ${date}. Here is your daily briefing.\n\n`;
+  let briefing = `${greeting} Joshua. ${date}.\n\n`;
   briefing += `Weather. ${weather}\n\n`;
-  briefing += `Your calendar. ${calendar}\n\n`;
-  briefing += `Reminders. ${reminders}\n\n`;
+  briefing += `Calendar. ${calendar}\n\n`;
+  // Skip reminders if none
+  if (reminders && !reminders.includes('No active')) {
+    briefing += `Reminders. ${reminders}\n\n`;
+  }
   if (stocks) {
     briefing += `Markets. ${stocks}\n\n`;
   }
   if (newsText) {
-    briefing += `News headlines.\n${newsText}\n\n`;
+    briefing += `Headlines.\n${newsText}\n\n`;
   }
-  briefing += `That's your briefing for today. Have a great day.`;
+  briefing += `That's your briefing.`;
 
   return briefing;
 }
