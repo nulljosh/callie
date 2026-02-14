@@ -12,29 +12,20 @@ const VOICE = process.env.VOICE || 'Polly.Joanna-Neural';
 
 /**
  * Convert briefing text to SSML with pauses between sections
+ * Simplified to avoid SSML parsing errors
  */
 function briefingToSsml(text) {
-  const sections = text.split(/\n\n+/);
-
-  let ssml = '';
-  for (const section of sections) {
-    const trimmed = section.trim();
-    if (!trimmed) continue;
-
-    // Pause between sections
-    if (ssml) ssml += '<break time="800ms"/>';
-
-    // Escape text first, then add SSML tags around headers
-    const escaped = escapeXml(trimmed);
-    const withHeaders = escaped.replace(
-      /^(Weather|Your calendar|Reminders|Markets|News headlines|That&apos;s your briefing)\./m,
-      '<emphasis level="moderate">$1.</emphasis><break time="400ms"/>'
-    );
-
-    ssml += withHeaders;
-  }
-
-  return ssml;
+  // Simple approach: just escape the text, skip complex SSML tags
+  // Polly Neural voices sound good without heavy SSML markup
+  const escaped = escapeXml(text);
+  
+  // Replace double newlines with pauses
+  const withPauses = escaped.replace(/\n\n+/g, '<break time="800ms"/> ');
+  
+  // Replace single newlines with short pauses (for news headlines)
+  const final = withPauses.replace(/\n/g, '<break time="300ms"/> ');
+  
+  return final;
 }
 
 /**
